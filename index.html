@@ -13,31 +13,27 @@
   </form>
 
   <script>
-    document.getElementById("dataForm").addEventListener("submit", function(e){
+    const form = document.getElementById("dataForm");
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      // Pega a localização
-      navigator.geolocation.getCurrentPosition(function(position){
+      // Pega localização
+      navigator.geolocation.getCurrentPosition(function(position) {
         const data = {
           cod: document.getElementById("cod").value,
           gps: position.coords.latitude + "," + position.coords.longitude,
           obs: document.getElementById("obs").value
         };
 
-        // Envia os dados para o Google Apps Script
-        fetch("https://script.google.com/macros/s/AKfycbxpoynHOcN1_J40iA1-Mz7gy3iOBwzW8rQ2mDUuJX7TlnRFTjxO6GHPhMVcVamUbawHlg/exec", {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(data)
-        })
-        .then(res => res.text())
-        .then(txt => {
-          alert("Enviado com sucesso!\nResposta: " + txt);
-          document.getElementById("dataForm").reset(); // limpa o formulário
-        })
-        .catch(err => alert("Erro ao enviar: " + err));
-        
-      }, function(error){
+        // Envia para o Apps Script usando google.script.run
+        google.script.run.withSuccessHandler(function(resp) {
+          alert("Enviado com sucesso: " + resp);
+          form.reset();
+        }).withFailureHandler(function(err) {
+          alert("Erro ao enviar: " + err.message);
+        }).salvarDados(data);
+
+      }, function(error) {
         alert("Erro ao obter localização: " + error.message);
       });
     });
