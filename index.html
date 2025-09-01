@@ -16,6 +16,7 @@
     document.getElementById("dataForm").addEventListener("submit", function(e){
       e.preventDefault();
 
+      // Pega a localização
       navigator.geolocation.getCurrentPosition(function(position){
         const data = {
           cod: document.getElementById("cod").value,
@@ -23,9 +24,10 @@
           obs: document.getElementById("obs").value
         };
 
+        // Envia os dados para o Google Apps Script
         fetch("https://script.google.com/macros/s/AKfycbxpoynHOcN1_J40iA1-Mz7gy3iOBwzW8rQ2mDUuJX7TlnRFTjxO6GHPhMVcVamUbawHlg/exec", {
           method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" }, // 👈 evita CORS
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(data)
         })
         .then(res => res.text())
@@ -34,6 +36,7 @@
           document.getElementById("dataForm").reset(); // limpa o formulário
         })
         .catch(err => alert("Erro ao enviar: " + err));
+        
       }, function(error){
         alert("Erro ao obter localização: " + error.message);
       });
