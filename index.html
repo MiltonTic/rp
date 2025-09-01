@@ -15,17 +15,27 @@
   <script>
     document.getElementById("dataForm").addEventListener("submit", function(e){
       e.preventDefault();
+
       navigator.geolocation.getCurrentPosition(function(position){
         const data = {
           cod: document.getElementById("cod").value,
           gps: position.coords.latitude + "," + position.coords.longitude,
           obs: document.getElementById("obs").value
         };
+
         fetch("https://script.google.com/macros/s/AKfycbxpoynHOcN1_J40iA1-Mz7gy3iOBwzW8rQ2mDUuJX7TlnRFTjxO6GHPhMVcVamUbawHlg/exec", {
           method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" }, // 👈 evita CORS
           body: JSON.stringify(data)
-        }).then(res => alert("Enviado com sucesso!"))
-          .catch(err => alert("Erro ao enviar: " + err));
+        })
+        .then(res => res.text())
+        .then(txt => {
+          alert("Enviado com sucesso!\nResposta: " + txt);
+          document.getElementById("dataForm").reset(); // limpa o formulário
+        })
+        .catch(err => alert("Erro ao enviar: " + err));
+      }, function(error){
+        alert("Erro ao obter localização: " + error.message);
       });
     });
   </script>
