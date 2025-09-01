@@ -1,0 +1,34 @@
+[index.html](https://github.com/user-attachments/files/22079780/index.html)
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Dados</title>
+</head>
+<body>
+  <h2>Cadastro</h2>
+  <form id="dataForm">
+    Código: <input type="text" id="cod" maxlength="8" required><br><br>
+    Observação: <input type="text" id="obs"><br><br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document.getElementById("dataForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      navigator.geolocation.getCurrentPosition(function(position){
+        const data = {
+          cod: document.getElementById("cod").value,
+          gps: position.coords.latitude + "," + position.coords.longitude,
+          obs: document.getElementById("obs").value
+        };
+        fetch("https://script.google.com/macros/s/AKfycbxpoynHOcN1_J40iA1-Mz7gy3iOBwzW8rQ2mDUuJX7TlnRFTjxO6GHPhMVcVamUbawHlg/exec", {
+          method: "POST",
+          body: JSON.stringify(data)
+        }).then(res => alert("Enviado com sucesso!"))
+          .catch(err => alert("Erro ao enviar: " + err));
+      });
+    });
+  </script>
+</body>
+</html>
