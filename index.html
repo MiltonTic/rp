@@ -24,26 +24,21 @@
       document.getElementById("longitude").value = pos.coords.longitude;
     });
 
-    // Envia para o Apps Script
+    // Envia para o Apps Script usando GET (sem CORS)
     document.getElementById("formulario").addEventListener("submit", async (e) => {
-  e.preventDefault();
+      e.preventDefault();
 
-  const params = new URLSearchParams({
-    numero: document.getElementById("numero").value,
-    latitude: document.getElementById("latitude").value,
-    longitude: document.getElementById("longitude").value,
-    usuario: "login_github_aqui"
-  });
+      const params = new URLSearchParams({
+        numero: document.getElementById("numero").value,
+        latitude: document.getElementById("latitude").value,
+        longitude: document.getElementById("longitude").value,
+        usuario: "login_github_aqui"
+      });
 
-  await fetch("https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec?" + params.toString());
+      await fetch("https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec?" + params.toString());
 
-  alert("Dados enviados com sucesso!");
-  document.getElementById("formulario").reset();
-});
-
-alert("Dados enviados com sucesso!");
-document.getElementById("formulario").reset(); // limpa o formulário
-
+      alert("Dados enviados com sucesso!");
+      document.getElementById("formulario").reset(); // limpa o formulário
     });
   </script>
 </body>
