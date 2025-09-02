@@ -1,33 +1,47 @@
-[index.html](https://github.com/user-attachments/files/22079780/index.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro de Dados</title>
+  <title>Coleta de Dados</title>
 </head>
 <body>
-  <h2>Cadastro</h2>
-  <form id="dataForm">
-    Código: <input type="text" id="cod" maxlength="8" required><br><br>
-    Observação: <input type="text" id="obs"><br><br>
+  <h1>Formulário de Coleta</h1>
+  <form id="formulario">
+    <label for="numero">Digite até 11 números:</label><br>
+    <input type="text" id="numero" name="numero" maxlength="11" required pattern="\d{1,11}"><br><br>
+    
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+    <input type="hidden" id="usuario" name="usuario">
+    
     <button type="submit">Enviar</button>
   </form>
 
   <script>
-    document.getElementById("dataForm").addEventListener("submit", function(e){
+    // Captura geolocalização
+    navigator.geolocation.getCurrentPosition((pos) => {
+      document.getElementById("latitude").value = pos.coords.latitude;
+      document.getElementById("longitude").value = pos.coords.longitude;
+    });
+
+    // Envia para o Apps Script
+    document.getElementById("formulario").addEventListener("submit", async (e) => {
       e.preventDefault();
-      navigator.geolocation.getCurrentPosition(function(position){
-        const data = {
-          cod: document.getElementById("cod").value,
-          gps: position.coords.latitude + "," + position.coords.longitude,
-          obs: document.getElementById("obs").value
-        };
-        fetch("https://script.google.com/macros/s/AKfycbxpoynHOcN1_J40iA1-Mz7gy3iOBwzW8rQ2mDUuJX7TlnRFTjxO6GHPhMVcVamUbawHlg/exec", {
-          method: "POST",
-          body: JSON.stringify(data)
-        }).then(res => alert("Enviado com sucesso!"))
-          .catch(err => alert("Erro ao enviar: " + err));
+
+      const dados = {
+        numero: document.getElementById("numero").value,
+        latitude: document.getElementById("latitude").value,
+        longitude: document.getElementById("longitude").value,
+        usuario: "login_github_aqui" // pode integrar OAuth depois
+      };
+
+      await fetch("[URL_DO_SEU_APPS_SCRIPT](https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec)", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(dados)
       });
+
+      alert("Dados enviados com sucesso!");
     });
   </script>
 </body>
