@@ -35,13 +35,15 @@
         usuario: "login_github_aqui" // pode integrar OAuth depois
       };
 
-      await fetch("https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(dados)
-      });
+     await fetch("https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify(dados)
+});
 
-      alert("Dados enviados com sucesso!");
+alert("Dados enviados com sucesso!");
+document.getElementById("formulario").reset(); // limpa o formulário
+
     });
   </script>
 </body>
