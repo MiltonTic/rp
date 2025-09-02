@@ -6,16 +6,22 @@
 </head>
 <body>
   <h1>Formulário de Coleta</h1>
-  <form id="formulario">
+
+  <form action="https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec" 
+        method="GET" target="hidden_iframe" id="formulario">
+    
     <label for="numero">Digite até 11 números:</label><br>
     <input type="text" id="numero" name="numero" maxlength="11" required pattern="\d{1,11}"><br><br>
     
     <input type="hidden" id="latitude" name="latitude">
     <input type="hidden" id="longitude" name="longitude">
-    <input type="hidden" id="usuario" name="usuario">
+    <input type="hidden" id="usuario" name="usuario" value="login_github_aqui">
     
     <button type="submit">Enviar</button>
   </form>
+
+  <!-- iframe escondido evita redirecionamento -->
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   <script>
     // Captura geolocalização
@@ -24,21 +30,10 @@
       document.getElementById("longitude").value = pos.coords.longitude;
     });
 
-    // Envia para o Apps Script usando GET (sem CORS)
-    document.getElementById("formulario").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const params = new URLSearchParams({
-        numero: document.getElementById("numero").value,
-        latitude: document.getElementById("latitude").value,
-        longitude: document.getElementById("longitude").value,
-        usuario: "login_github_aqui"
-      });
-
-      await fetch("https://script.google.com/macros/s/AKfycbxe2o9ax5rV1G0aKh-40MSaLkRoT9hSiyHkLLpCxb5eLimsn54OXPhXP1Lrzc5voA-Bjg/exec?" + params.toString());
-
+    // Mensagem e reset após envio
+    document.getElementById("formulario").addEventListener("submit", () => {
       alert("Dados enviados com sucesso!");
-      document.getElementById("formulario").reset(); // limpa o formulário
+      setTimeout(() => document.getElementById("formulario").reset(), 500);
     });
   </script>
 </body>
