@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Coleta de Dados</title>
+  <style>
+    body { font-family: sans-serif; }
+    h1 { color: #333; }
+    label, input, button { margin: 5px 0; }
+  </style>
 </head>
 <body>
   <h1>Formulário de Coleta</h1>
 
-  <form action="https://script.google.com/macros/s/AKfycbyssQhgxYl2cBgKCdXH_ZDXL5sIlLlJVSoa1h98i6g-CzBZq9Z-mwwsVrnR9Bel3MtjbA/exec" 
-        method="GET" target="hidden_iframe" id="formulario">
-    
+  <form id="formulario">
     <label for="numero">Digite até 11 números:</label><br>
     <input type="text" id="numero" name="numero" maxlength="11" required pattern="\d{1,11}"><br><br>
     
@@ -20,20 +23,46 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <!-- iframe escondido evita redirecionamento -->
-  <iframe name="hidden_iframe" style="display:none;"></iframe>
-
   <script>
-    // Captura geolocalização
+    const form = document.getElementById('formulario');
+    const latitudeInput = document.getElementById('latitude');
+    const longitudeInput = document.getElementById('longitude');
+
+    // Captura geolocalização e preenche os campos escondidos
     navigator.geolocation.getCurrentPosition((pos) => {
-      document.getElementById("latitude").value = pos.coords.latitude;
-      document.getElementById("longitude").value = pos.coords.longitude;
+      latitudeInput.value = pos.coords.latitude;
+      longitudeInput.value = pos.coords.longitude;
+    }, (error) => {
+        console.error('Erro ao obter geolocalização:', error);
+        alert('Não foi possível obter sua localização. Por favor, habilite a geolocalização no seu navegador.');
     });
 
-    // Mensagem e reset após envio
-    document.getElementById("formulario").addEventListener("submit", () => {
-      alert("Dados enviados com sucesso!");
-      setTimeout(() => document.getElementById("formulario").reset(), 500);
+    // Envia os dados usando Fetch API
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Impede o envio padrão do formulário
+
+      const url = "https://script.google.com/macros/s/AKfycbyssQhgxYl2cBgKCdXH_ZDXL5sIlLlJVSoa1h98i6g-CzBZq9Z-mwwsVrnR9Bel3MtjbA/exec";
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.text();
+
+        if (result === 'OK') {
+          alert("Dados enviados com sucesso!");
+          form.reset();
+        } else {
+          alert("Ocorreu um erro no envio. Tente novamente mais tarde.");
+          console.error('Resposta do servidor:', result);
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        alert("Ocorreu um erro ao conectar com o servidor.");
+      }
     });
   </script>
 </body>
