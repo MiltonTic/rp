@@ -1,69 +1,180 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Coleta de Dados</title>
-  <style>
-    body { font-family: sans-serif; }
-    h1 { color: #333; }
-    label, input, button { margin: 5px 0; }
-  </style>
-</head>
-<body>
-  <h1>Formulário de Coleta</h1>
-
-  <form id="formulario">
-    <label for="numero">Digite até 11 números:</label><br>
-    <input type="text" id="numero" name="numero" maxlength="11" required pattern="\d{1,11}"><br><br>
-    
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
-    <input type="hidden" id="usuario" name="usuario" value="login_github_aqui">
-    
-    <button type="submit">Enviar</button>
-  </form>
-
-  <script>
-    const form = document.getElementById('formulario');
-    const latitudeInput = document.getElementById('latitude');
-    const longitudeInput = document.getElementById('longitude');
-
-    // Captura geolocalização e preenche os campos escondidos
-    navigator.geolocation.getCurrentPosition((pos) => {
-      latitudeInput.value = pos.coords.latitude;
-      longitudeInput.value = pos.coords.longitude;
-    }, (error) => {
-        console.error('Erro ao obter geolocalização:', error);
-        alert('Não foi possível obter sua localização. Por favor, habilite a geolocalização no seu navegador.');
-    });
-
-    // Envia os dados usando Fetch API
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Impede o envio padrão do formulário
-
-      const url = "https://script.google.com/macros/s/AKfycbyssQhgxYl2cBgKCdXH_ZDXL5sIlLlJVSoa1h98i6g-CzBZq9Z-mwwsVrnR9Bel3MtjbA/exec";
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          body: formData,
-        });
-
-        const result = await response.text();
-
-        if (result === 'OK') {
-          alert("Dados enviados com sucesso!");
-          form.reset();
-        } else {
-          alert("Ocorreu um erro no envio. Tente novamente mais tarde.");
-          console.error('Resposta do servidor:', result);
-        }
-      } catch (error) {
-        console.error('Erro na requisição:', error);
-        alert("Ocorreu um erro ao conectar com o servidor.");
+!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+        background-color: #f5f5f5;
       }
-    });
-  </script>
-</body>
+      .container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      h2 {
+        color: #1a73e8;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 18px;
+        text-align: center;
+        letter-spacing: 2px;
+      }
+      #status {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 4px;
+        display: none;
+      }
+      .success {
+        background-color: #e6f4ea;
+        color: #137333;
+        display: block;
+      }
+      .error {
+        background-color: #fce8e6;
+        color: #c5221f;
+        display: block;
+      }
+      .info {
+        background-color: #e8f0fe;
+        color: #1967d2;
+        display: block;
+      }
+    </style>
+  </head>
+  <body onload="focusOnBarcode()">
+    <div class="container">
+      <h2>Leitor de Código de Barras</h2>
+     
+      <div class="form-group">
+        <label for="barcode">Código de Barras (5 dígitos):</label>
+        <input type="text" id="barcode" name="barcode" pattern="[0-9]{5}"
+               title="Escaneie o código de 5 dígitos"
+               placeholder="Escaneie o código"
+               oninput="checkBarcodeLength(this)"
+               onkeypress="handleEnterKey(event)">
+      </div>
+     
+      <p id="status"></p>
+    </div>
+
+
+    <script>
+      function focusOnBarcode() {
+        document.getElementById("barcode").focus();
+      }
+     
+      function checkBarcodeLength(input) {
+        if (input.value.length === 5) {
+          // Quando atingir 5 dígitos, inicia o processo de envio
+          getLocation();
+        }
+      }
+     
+      function handleEnterKey(event) {
+        // Se o usuário pressionar Enter manualmente
+        if (event.key === "Enter") {
+          event.preventDefault();
+          getLocation();
+        }
+      }
+     
+      function getLocation() {
+        const status = document.getElementById("status");
+        const barcodeInput = document.getElementById("barcode");
+        const barcode = barcodeInput.value;
+       
+        // Validação do código de barras
+        if (!barcode || !/^\d{5}$/.test(barcode)) {
+          status.textContent = "Código de barras deve ter exatamente 5 dígitos numéricos.";
+          status.className = "error";
+          return;
+        }
+       
+        status.textContent = "Obtendo localização...";
+        status.className = "info";
+
+
+        if (!navigator.geolocation) {
+          status.textContent = "Geolocalização não é suportada neste navegador.";
+          status.className = "error";
+          return;
+        }
+
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            status.textContent = "Enviando dados...";
+            status.className = "info";
+           
+            google.script.run
+              .withSuccessHandler(() => {
+                status.textContent = "Dados enviados com sucesso!";
+                status.className = "success";
+                barcodeInput.value = ""; // Limpa o campo após o envio
+                setTimeout(() => {
+                  status.style.display = "none";
+                  focusOnBarcode(); // Foca novamente no campo para nova leitura
+                }, 2000); // Esconde a mensagem após 2 segundos
+              })
+              .withFailureHandler((err) => {
+                status.textContent = "Erro: " + err;
+                status.className = "error";
+                setTimeout(() => {
+                  status.style.display = "none";
+                  focusOnBarcode();
+                }, 3000);
+              })
+              .saveLocation(latitude, longitude, barcode);
+          },
+          (error) => {
+            let errorMsg;
+            switch(error.code) {
+              case error.PERMISSION_DENIED:
+                errorMsg = "Permissão negada pelo usuário.";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMsg = "Localização indisponível.";
+                break;
+              case error.TIMEOUT:
+                errorMsg = "Tempo de solicitação excedido.";
+                break;
+              default:
+                errorMsg = "Erro desconhecido.";
+            }
+            status.textContent = errorMsg;
+            status.className = "error";
+            setTimeout(() => {
+              status.style.display = "none";
+              focusOnBarcode();
+            }, 3000);
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      }
+    </script>
+  </body>
 </html>
