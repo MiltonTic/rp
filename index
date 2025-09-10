@@ -5,47 +5,228 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Página Inicial</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
         }
-        h1 {
-            color: #333;
-        }
-        .button-container {
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        .button {
-            display: block;
+        
+        .container {
             width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            font-size: 18px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .button:hover {
-            background-color: #0056b3;
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .buttons-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .buttons-section h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .main-button {
+            display: flex;
+            align-items: center;
+            padding: 18px 25px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-button:hover {
+            background: #2575fc;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .main-button i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .info-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-section h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .info-section p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .inventory-preview {
+            margin-top: 25px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .inventory-preview h3 {
+            margin-bottom: 15px;
+            color: #2575fc;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Bem-vindo à Minha Página</h1>
-    <div class="button-container">
-        <a href="#" class="button">Botão 1</a>
-        <a href="#" class="button">Botão 2</a>
-        <a href="inventario.html" class="button">Inventário rápido</a>
-        <a href="#" class="button">Botão 4</a>
-        <a href="#" class="button">Botão 5</a>
+    <div class="container">
+        <header>
+            <h1>Meu Sistema de Gestão</h1>
+            <p>Uma solução completa para gerenciar seus recursos</p>
+        </header>
+        
+        <div class="main-content">
+            <section class="buttons-section">
+                <h2>Menu Principal</h2>
+                <div class="button-grid">
+                    <a href="#" class="main-button">
+                        <i class="fas fa-home"></i>
+                        Página Inicial
+                    </a>
+                    <a href="#" class="main-button">
+                        <i class="fas fa-users"></i>
+                        Gestão de Clientes
+                    </a>
+                    <a href="https://miltontic.github.io/rp/" class="main-button">
+                        <i class="fas fa-barcode"></i>
+                        Inventário Rápido
+                    </a>
+                    <a href="#" class="main-button">
+                        <i class="fas fa-chart-line"></i>
+                        Relatórios
+                    </a>
+                    <a href="#" class="main-button">
+                        <i class="fas fa-cog"></i>
+                        Configurações
+                    </a>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h2>Sistema de Inventário</h2>
+                <p>Nosso sistema de inventário rápido permite escanear códigos de barras e registrar automaticamente a localização dos itens.</p>
+                <p>Clique no botão "Inventário Rápido" para acessar o leitor de código de barras.</p>
+                
+                <div class="inventory-preview">
+                    <h3>Como usar:</h3>
+                    <p>1. Clique em "Inventário Rápido"</p>
+                    <p>2. Permita o acesso à localização quando solicitado</p>
+                    <p>3. Escaneie o código de barras de 5 dígitos</p>
+                    <p>4. Os dados serão salvos automaticamente</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 Meu Sistema - Todos os direitos reservados</p>
+        </footer>
     </div>
+
+    <script>
+        // Adicionando efeitos interativos aos botões
+        document.querySelectorAll('.main-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Feedback visual ao clicar
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // Simulando um login (apenas para demonstração)
+        console.log('Página carregada com sucesso!');
+    </script>
 </body>
 </html>
