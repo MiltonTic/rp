@@ -1,232 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Página Inicial</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 0;
-            color: white;
-            margin-bottom: 30px;
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        
-        .buttons-section {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .buttons-section h2 {
-            color: #2575fc;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.8rem;
-        }
-        
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        .main-button {
-            display: flex;
-            align-items: center;
-            padding: 18px 25px;
-            background: #f8f9fa;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .main-button:hover {
-            background: #2575fc;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .main-button i {
-            margin-right: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .info-section {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .info-section h2 {
-            color: #2575fc;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.8rem;
-        }
-        
-        .info-section p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        
-        .inventory-preview {
-            margin-top: 25px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        
-        .inventory-preview h3 {
-            margin-bottom: 15px;
-            color: #2575fc;
-        }
-        
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: white;
-            padding: 20px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #1a73e8;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+    #status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    .success {
+      background-color: #e6f4ea;
+      color: #137333;
+      display: block;
+    }
+    .error {
+      background-color: #fce8e6;
+      color: #c5221f;
+      display: block;
+    }
+    .info {
+      background-color: #e8f0fe;
+      color: #1967d2;
+      display: block;
+    }
+    .counter {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #5f6368;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Meu Sistema de Gestão</h1>
-            <p>Uma solução completa para gerenciar seus recursos</p>
-        </header>
-        
-        <div class="main-content">
-            <section class="buttons-section">
-                <h2>Menu Principal</h2>
-                <div class="button-grid">
-                    <a href="#" class="main-button">
-                        <i class="fas fa-home"></i>
-                        Página Inicial
-                    </a>
-                    <a href="#" class="main-button">
-                        <i class="fas fa-users"></i>
-                        Gestão de Clientes
-                    </a>
-                    <a href="https://miltontic.github.io/rp/" class="main-button">
-                        <i class="fas fa-barcode"></i>
-                        Inventário Rápido
-                    </a>
-                    <a href="#" class="main-button">
-                        <i class="fas fa-chart-line"></i>
-                        Relatórios
-                    </a>
-                    <a href="#" class="main-button">
-                        <i class="fas fa-cog"></i>
-                        Configurações
-                    </a>
-                </div>
-            </section>
-            
-            <section class="info-section">
-                <h2>Sistema de Inventário</h2>
-                <p>Nosso sistema de inventário rápido permite escanear códigos de barras e registrar automaticamente a localização dos itens.</p>
-                <p>Clique no botão "Inventário Rápido" para acessar o leitor de código de barras.</p>
-                
-                <div class="inventory-preview">
-                    <h3>Como usar:</h3>
-                    <p>1. Clique em "Inventário Rápido"</p>
-                    <p>2. Permita o acesso à localização quando solicitado</p>
-                    <p>3. Escaneie o código de barras de 5 dígitos</p>
-                    <p>4. Os dados serão salvos automaticamente</p>
-                </div>
-            </section>
-        </div>
-        
-        <footer>
-            <p>&copy; 2023 Meu Sistema - Todos os direitos reservados</p>
-        </footer>
+<body onload="focusOnBarcode()">
+  <div class="container">
+    <h2>Leitor de Código de Barras</h2>
+   
+    <div class="form-group">
+      <label for="barcode">Código de Barras (5 dígitos):</label>
+      <input type="text" id="barcode" name="barcode" pattern="[0-9]{5}"
+             title="Escaneie o código de 5 dígitos"
+             placeholder="Escaneie o código"
+             oninput="checkBarcodeLength(this)"
+             onkeypress="handleEnterKey(event)">
     </div>
+   
+    <p id="status"></p>
+    <div class="counter">Registros enviados: <span id="counter">0</span></div>
+  </div>
 
-    <script>
-        // Adicionando efeitos interativos aos botões
-        document.querySelectorAll('.main-button').forEach(button => {
-            button.addEventListener('click', function() {
-                // Feedback visual ao clicar
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 150);
-            });
-        });
-        
-        // Simulando um login (apenas para demonstração)
-        console.log('Página carregada com sucesso!');
-    </script>
+  <script>
+    let isProcessing = false;
+    let successCount = 0;
+
+    function focusOnBarcode() {
+      document.getElementById("barcode").focus();
+    }
+   
+    function checkBarcodeLength(input) {
+      if (input.value.length === 5 && !isProcessing) {
+        getLocation();
+      }
+    }
+   
+    function handleEnterKey(event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Impede o comportamento padrão do Enter
+        if (!isProcessing) {
+          getLocation();
+        }
+      }
+    }
+   
+    function getLocation() {
+      isProcessing = true;
+      const status = document.getElementById("status");
+      const barcodeInput = document.getElementById("barcode");
+      const barcode = barcodeInput.value;
+     
+      // Validação do código de barras
+      if (!barcode || !/^\d{5}$/.test(barcode)) {
+        status.textContent = "Código de barras deve ter exatamente 5 dígitos numéricos.";
+        status.className = "error";
+        status.style.display = "block";
+        isProcessing = false;
+        return;
+      }
+     
+      status.textContent = "Obtendo localização...";
+      status.className = "info";
+      status.style.display = "block";
+
+      if (!navigator.geolocation) {
+        status.textContent = "Geolocalização não é suportada neste navegador.";
+        status.className = "error";
+        isProcessing = false;
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          status.textContent = "Enviando dados...";
+          status.className = "info";
+         
+          google.script.run
+            .withSuccessHandler(() => {
+              successCount++;
+              document.getElementById("counter").textContent = successCount;
+              status.textContent = "Dados enviados com sucesso!";
+              status.className = "success";
+              barcodeInput.value = ""; // Limpa o campo após o envio
+              isProcessing = false;
+              
+              setTimeout(() => {
+                status.style.display = "none";
+                focusOnBarcode(); // Foca novamente no campo para nova leitura
+              }, 2000); // Esconde a mensagem após 2 segundos
+            })
+            .withFailureHandler((err) => {
+              status.textContent = "Erro: " + err;
+              status.className = "error";
+              isProcessing = false;
+              setTimeout(() => {
+                status.style.display = "none";
+                focusOnBarcode();
+              }, 3000);
+            })
+            .saveLocation(latitude, longitude, barcode);
+        },
+        (error) => {
+          let errorMsg;
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              errorMsg = "Permissão negada pelo usuário.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMsg = "Localização indisponível.";
+              break;
+            case error.TIMEOUT:
+              errorMsg = "Tempo de solicitação excedido.";
+              break;
+            default:
+              errorMsg = "Erro desconhecido.";
+          }
+          status.textContent = errorMsg;
+          status.className = "error";
+          isProcessing = false;
+          setTimeout(() => {
+            status.style.display = "none";
+            focusOnBarcode();
+          }, 3000);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+  </script>
 </body>
 </html>
